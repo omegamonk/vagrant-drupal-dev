@@ -7,12 +7,39 @@ server {
         server_name localhost;
 
         location / {
-                # First attempt to serve request as file, then
-                # as directory, then fall back to index.html
-                try_files $uri $uri/ /index.php;
-                # Uncomment to enable naxsi on this location
-                # include /etc/nginx/naxsi.rules
+                try_files $uri $uri/ @rewrite;
+                expires max;
                 autoindex on;
+        }
+
+        location = /favicon.ico {
+          log_not_found off;
+          access_log off;
+        }
+
+        location /robots.txt {
+          allow all;
+          log_not_found off;
+          access_log off;
+        }
+
+        location = /backup {
+          deny all;
+        }
+
+        location ~*.(txt|log)$ {
+          allow 127.0.0.1;
+          deny all;
+        }
+
+        location ~ \..*/.*\.php {
+                return 403;
+        }
+
+        location @rewrite {
+                # Some modules enforce no slash (/) at the end of the URL
+                # Else this rewrite block wouldn&#39;t be needed (GlobalRedirect)
+                rewrite ^/(.*)$ /index.php?q=$1;
         }
 
         location /doc/ {
@@ -25,10 +52,12 @@ server {
         # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
         #
         location ~ \.php$ {
+          include fastcgi_params;
+          fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
           fastcgi_split_path_info ^(.+\.php)(/.+)$;
           fastcgi_pass 127.0.0.1:9000;
           fastcgi_index index.php;
-          include fastcgi_params;
+
 
           try_files $uri $uri/ =404;
         }
