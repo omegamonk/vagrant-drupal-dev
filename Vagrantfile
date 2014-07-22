@@ -23,7 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     #dev.vm.network 'forwarded_port', guest: 80, host: 8080
     #dev.vm.network 'forwarded_port', guest: 3306, host: 33306
     # Need to add the appropriate folders to access htdocs, etc.
-    dev.vm.synced_folder '~/htdocs', '/app/drupal', owner: 'www-data', group: 'www-data'
+    dev.vm.synced_folder ‘site-root’, '/app/drupal', owner: 'www-data', group: 'www-data'
   end
 
   config.vm.provider 'virtualbox' do |vb|
