@@ -20,8 +20,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define 'dev' do |dev|
     dev.vm.hostname = 'dev'
     dev.vm.network "private_network", ip: "192.168.227.5"
-    #dev.vm.network 'forwarded_port', guest: 80, host: 8080
-    #dev.vm.network 'forwarded_port', guest: 3306, host: 33306
+    
     # Need to add the appropriate folders to access htdocs, etc.
     dev.vm.synced_folder 'site-root', '/app/drupal', owner: 'www-data', group: 'www-data'
   end
