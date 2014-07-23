@@ -22,12 +22,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     dev.vm.network "private_network", ip: "192.168.227.5"
     
     # Need to add the appropriate folders to access htdocs, etc.
-    dev.vm.synced_folder 'site-root', '/app/drupal', owner: 'www-data', group: 'www-data'
+    dev.vm.synced_folder 'site-root', '/app/drupal', type: 'nfs'
   end
 
   config.vm.provider 'virtualbox' do |vb|
     # Specify the amount of memory in MB
-    vb.memory = 512
+    vb.memory = 1024
     # Specify the number of CPUs
     vb.cpus = 2
   end
