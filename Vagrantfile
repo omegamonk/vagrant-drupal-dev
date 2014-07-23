@@ -9,8 +9,11 @@ VAGRANTFILE_API_VERSION = '2'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Common Setup.
-  config.vm.box = 'precise64'
-  config.vm.box_url = 'http://files.vagrantup.com/precise64.box'
+  # config.vm.box = 'precise64'
+  # config.vm.box_url = 'http://files.vagrantup.com/precise64.box'
+
+  config.vm.box = 'ubuntu/trusty64'
+  config.vm.box_url = 'https://vagrantcloud.com/ubuntu/trusty64'
 
   # This will likely have to be more specific for each host
   config.vm.provision 'puppet' do |puppet|
@@ -20,7 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define 'dev' do |dev|
     dev.vm.hostname = 'dev'
     dev.vm.network "private_network", ip: "192.168.227.5"
-    
+
     # Need to add the appropriate folders to access htdocs, etc.
     dev.vm.synced_folder 'site-root', '/app/drupal', type: 'nfs'
   end
