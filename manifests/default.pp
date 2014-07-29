@@ -39,9 +39,21 @@ package { [
   'bzr',
   'patch',
   'curl',
+  # Grab dependencies for mailcatcher.
+  # Gets the C++ compiler (g++) that we need.
+  'build-essential',
+  # SQLite is a C library that implements a SQL database engine.
+  'libsqlite3-dev',
+  'ruby-dev',
   ]:
   ensure => installed,
   require => [ Exec['add-maria-db-repository'], Exec['apt-update2'] ],
+}
+
+package { 'mailcatcher':
+  provider => gem,
+  ensure => installed,
+  require => [ Package['build-essential'], Package['libsqlite3-dev'], Package['ruby-dev'] ],
 }
 
 service { 'nginx':
