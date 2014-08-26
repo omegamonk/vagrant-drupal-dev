@@ -27,11 +27,6 @@ server {
           deny all;
         }
 
-        location ~*.(txt|log)$ {
-          allow 127.0.0.1;
-          deny all;
-        }
-
         location ~ \..*/.*\.php {
                 return 403;
         }
