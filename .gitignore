@@ -1,3 +1,3 @@
 .vagrant
 site-root/
-config/
+site.make
