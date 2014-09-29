@@ -2,8 +2,6 @@
 
 echo -n "Enter profile name > "
 read profile
-echo -n "Enter git clone url > "
-read git_url
 
 cat << _EOF_ > site.make
 api = 2
@@ -14,14 +12,14 @@ projects[drupal][version] = "7.31"
 
 projects[$profile][type] = profile
 projects[$profile][download][type] = git
-projects[$profile][download][url] = $git_url
+projects[$profile][download][url] = "https://github.com/michfuer/profile_stub"
 projects[$profile][download][branch] = master
 
 ; Useful tools  ================================================================
 projects[tools][type] = module
 projects[tools][subdir] = contrib
 projects[tools][download][type] = "git"
-projects[tools][download][url] = "git@github.com:michfuer/tools.git"
+projects[tools][download][url] = "https://github.com/michfuer/tools"
 projects[tools][download][branch] = "master"
 _EOF_
 
