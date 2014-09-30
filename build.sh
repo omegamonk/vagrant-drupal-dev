@@ -46,7 +46,7 @@ create_vagrantfile() {
 
 	  config.vm.define 'dev' do |dev|
 	    dev.vm.hostname = 'dev'
-	    dev.vm.network "private_network", ip: $address
+	    dev.vm.network "private_network", ip: "$address"
 
 	    # Need to add the appropriate folders to access htdocs, etc.
 	    dev.vm.synced_folder 'site-root', '/app/drupal', type: 'nfs'
@@ -54,7 +54,7 @@ create_vagrantfile() {
 
 	  config.vm.provider 'virtualbox' do |vb|
 	    # Specify the amount of memory in MB
-	    vb.memory = 1024
+	    vb.memory = 2048
 	    # Specify the number of CPUs
 	    vb.cpus = 2
 	  end
@@ -87,6 +87,8 @@ fi
 
 echo -n "Build site.make (y/n)? "
 read build
+
+#
 
 if [[ "$build" = "y" ]]; then
 	echo -n "Enter desired profile branch name > "
