@@ -1,9 +1,12 @@
 #!/bin/bash
 
-##### Functions
+##### Functions #####
 
 # Creates a default drush makefile.
 create_site_make() {
+	echo -n "Enter profile branch > "
+	read branch
+
 	cat <<- _EOF_ > site.make
 	api = 2
 	core = 7.x
@@ -14,7 +17,7 @@ create_site_make() {
 	projects[profile_stub][type] = profile
 	projects[profile_stub][download][type] = git
 	projects[profile_stub][download][url] = "https://github.com/michfuer/profile_stub"
-	projects[profile_stub][download][branch] = master
+	projects[profile_stub][download][branch] = $branch
 	_EOF_
 }
 
@@ -63,6 +66,14 @@ create_vagrantfile() {
 
 }
 
+# Builds the site-root/ directory using drush.
+build_site_root() {
+	drush make --working-copy site.make site-root
+	cd site-root/profiles/profile_stub
+}
+
+##### Main #####
+
 # Create/Update the Vagrantfile
 if [[ -f Vagrantfile ]]; then
     echo -n "Overwrite existing Vagrantfile (y/n)? "
@@ -85,16 +96,22 @@ else
 	create_site_make
 fi
 
-echo -n "Build site.make (y/n)? "
-read build
-
-#
-
-if [[ "$build" = "y" ]]; then
-	echo -n "Enter desired profile branch name > "
-	read profile
-
-	drush make --working-copy site.make site-root
-	cd site-root/profiles/profile_stub
-	git checkout -b $profile
+# Prompt user to rebuild site-root/
+if [[ -d site-root ]]; then
+    echo -n "Rebuild site-root/ (y/n)? "
+    read rebuild
+    if [[ "$rebuild" = "y" ]]; then
+    	sudo rm -rf site-root
+    	build_site_root
+    fi
+else
+	# site-root/ doesn't exist. Prompt
+	# to make now, as some users will
+	# want to first edit site.make before
+	# building.
+	echo -n "Build site.make (y/n)? "
+	read build
+	if [[ "$build" = "y" ]]; then
+		build_site_root
+	fi
 fi
