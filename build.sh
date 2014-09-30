@@ -16,18 +16,11 @@ create_site_make()
 	projects[profile_stub][download][type] = git
 	projects[profile_stub][download][url] = "https://github.com/michfuer/profile_stub"
 	projects[profile_stub][download][branch] = master
-
-	# Useful tools  ================================================================
-	projects[tools][type] = module
-	projects[tools][subdir] = contrib
-	projects[tools][download][type] = "git"
-	projects[tools][download][url] = "https://github.com/michfuer/tools"
-	projects[tools][download][branch] = "master"
 	_EOF_
 }
 
 if [[ -f site.make ]]; then
-    echo "Overwrite existing site.make file (y/n)? "
+    echo -n "Overwrite existing site.make file (y/n)? "
     read overwrite
     if [[ "$overwrite" = "y" ]]; then
     	create_site_make
@@ -40,5 +33,10 @@ echo -n "Build site.make (y/n)? "
 read build
 
 if [[ "$build" = "y" ]]; then
+	echo -n "Enter desired profile branch name > "
+	read profile
+
 	drush make --working-copy site.make site-root
+	cd site-root/profiles/profile_stub
+	git checkout -b $profile
 fi
