@@ -4,6 +4,9 @@
 
 # Creates a default drush makefile.
 create_site_make() {
+	echo -n "Enter profile git repo URL > "
+	read url
+
 	echo -n "Enter profile branch > "
 	read branch
 
@@ -16,7 +19,7 @@ create_site_make() {
 
 	projects[profile_stub][type] = profile
 	projects[profile_stub][download][type] = git
-	projects[profile_stub][download][url] = "https://github.com/michfuer/profile_stub"
+	projects[profile_stub][download][url] = $url
 	projects[profile_stub][download][branch] = $branch
 	_EOF_
 }
@@ -24,7 +27,7 @@ create_site_make() {
 # Creates a default Vagrantfile.
 create_vagrantfile() {
 
-	echo -n "Enter desired IP address e.g. 192.168.227.x. Remember to update /etc/hosts with the same address. > "
+	echo -n "Enter desired IP address for your virtual machine, e.g. 192.168.227.x. Remember to update /etc/hosts with the same address. > "
 	read address
 
 	cat <<- _EOF_ > Vagrantfile
