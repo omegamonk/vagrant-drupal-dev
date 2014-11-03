@@ -96,7 +96,11 @@ if [[ -f site.make ]]; then
     	create_site_make
     fi
 else
-	create_site_make
+	echo -n "Do you want to create a site make file (y/n)? "
+	read site_make_proceed
+	if [[ "$site_make_proceed" = "y" ]]; then
+		create_site_make
+	fi
 fi
 
 # Prompt user to rebuild site-root/
@@ -112,9 +116,13 @@ else
 	# to make now, as some users will
 	# want to first edit site.make before
 	# building.
-	echo -n "Build site.make (y/n)? "
-	read build
-	if [[ "$build" = "y" ]]; then
-		build_site_root
+	if [[ "$site_make_proceed" = "y" ]]; then
+		echo -n "Build site.make (y/n)? "
+		read build
+		if [[ "$build" = "y" ]]; then
+			build_site_root
+		fi
+	else
+		mkdir site-root
 	fi
 fi
