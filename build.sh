@@ -72,7 +72,6 @@ create_vagrantfile() {
 # Builds the site-root/ directory using drush.
 build_site_root() {
 	drush make --working-copy site.make site-root
-	cd site-root/profiles/profile_stub
 }
 
 ##### Main #####
