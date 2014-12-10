@@ -2,7 +2,7 @@
 
 ## Basic Usage
 
-1. Clone this repo into your desired projects folder (e.g. ~/sites) and change
+Clone this repo into your desired projects folder (e.g. ~/sites) and change
 the repo name to the desired project name:
 
 ```sh
@@ -11,10 +11,10 @@ git clone https://github.com/omegamonk/vagrant-drupal-dev
 mv vagrant-drupal-dev project_name.dev
 ```
 
-2. Next build your stub site by executing the build shell script and going
-  through the prompts. Note the site.make file is created on the assumption that
-  you will develop using an install profile. If you prefer not to, then simply
-  don’t build the site.make and instead extract your site to **project_name.dev/site-root/**
+Next build your stub site by executing the build shell script and going through
+the prompts. Note the site.make file is created on the assumption that you will
+develop using an install profile. If you prefer not to, then simply don’t build
+the site.make and instead extract your site to **project_name.dev/site-root/**
 
 ```sh
 cd project_name.dev
@@ -24,7 +24,7 @@ cd project_name.dev
 Remember to update /etc/hosts so your desired project domain name points to the
 IP address in Vagrantfile.
 
-3. Create the virtual machine:
+Create the virtual machine:
 
 ```sh
 vagrant up
