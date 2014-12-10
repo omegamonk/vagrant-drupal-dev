@@ -172,6 +172,14 @@ mysql_user { 'root@192.168.%':
   max_user_connections     => '0',
 }
 
+mysql_grant { 'root@192.168.%/*.*':
+  ensure     => 'present',
+  options    => ['GRANT'],
+  privileges => ['ALL'],
+  table      => '*.*',
+  user       => 'root@192.168.%',
+}
+
 exec { 'pear-update-console-getopt':
   command => '/usr/bin/pear upgrade --force Console_Getopt',
   require => Package['php-pear'],
