@@ -15,7 +15,7 @@ create_site_make() {
 	core = 7.x
 
 	projects[drupal][type] = core
-	projects[drupal][version] = "7.34"
+	projects[drupal][version] = "7.36"
 
 	projects[profile_stub][type] = profile
 	projects[profile_stub][download][type] = git
