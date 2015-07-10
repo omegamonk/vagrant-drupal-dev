@@ -1,6 +1,6 @@
 
 server {
-        root /app/drupal;
+        root /app/drupal/www;
         index index.php;
 
         # Make site accessible from http://localhost/
