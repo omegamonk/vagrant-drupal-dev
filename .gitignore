@@ -1,4 +1,3 @@
 .vagrant
-site-root/
-site.make
+project/
 Vagrantfile
