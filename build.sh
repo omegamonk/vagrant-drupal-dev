@@ -69,11 +69,6 @@ create_vagrantfile() {
 
 }
 
-# Builds the site-root/ directory using drush.
-build_site_root() {
-	drush make --working-copy site.make site-root
-}
-
 ##### Main #####
 
 # Create/Update the Vagrantfile
@@ -85,43 +80,4 @@ if [[ -f Vagrantfile ]]; then
     fi
 else
 	create_vagrantfile
-fi
-
-# Create/Update the site makefile
-if [[ -f site.make ]]; then
-    echo -n "Overwrite existing site.make file (y/n)? "
-    read overwrite
-    if [[ "$overwrite" = "y" ]]; then
-    	create_site_make
-    fi
-else
-	echo -n "Do you want to create a site make file (y/n)? "
-	read site_make_proceed
-	if [[ "$site_make_proceed" = "y" ]]; then
-		create_site_make
-	fi
-fi
-
-# Prompt user to rebuild site-root/
-if [[ -d site-root ]]; then
-    echo -n "Rebuild site-root/ (y/n)? "
-    read rebuild
-    if [[ "$rebuild" = "y" ]]; then
-    	sudo rm -rf site-root
-    	build_site_root
-    fi
-else
-	# site-root/ doesn't exist. Prompt
-	# to make now, as some users will
-	# want to first edit site.make before
-	# building.
-	if [[ "$site_make_proceed" = "y" ]]; then
-		echo -n "Build site.make (y/n)? "
-		read build
-		if [[ "$build" = "y" ]]; then
-			build_site_root
-		fi
-	else
-		mkdir site-root
-	fi
 fi
