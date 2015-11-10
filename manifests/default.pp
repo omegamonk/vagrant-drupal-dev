@@ -28,7 +28,7 @@ package { [
   'php5-curl',
   'php5-common',
   'php5-gd',
-  'php-pear',
+  'php5-xdebug',
   'nginx',
   'mariadb-server',
   'git-core',
@@ -179,27 +179,28 @@ mysql_grant { 'root@192.168.%/*.*':
   user       => 'root@192.168.%',
 }
 
-exec { 'pear-update-console-getopt':
-  command => '/usr/bin/pear upgrade --force Console_Getopt',
-  require => Package['php-pear'],
+exec { 'composer-install':
+  command => '/usr/bin/curl -sS https://getcomposer.org/installer | php',
+  require => Package['php5-cli'],
+  unless => '/usr/bin/which composer',
 }
 
-exec { 'pear-update-pear':
-  command => '/usr/bin/pear upgrade --force pear',
-  require => Exec['pear-update-console-getopt'],
+exec { 'composer-mv':
+  command => '/bin/mv composer.phar /usr/bin/composer',
+  require => Exec['composer-install'],
+  unless => '/usr/bin/which composer',
 }
 
-exec { 'pear-install-drush-channel':
-  command => '/usr/bin/pear channel-discover pear.drush.org',
-  require => Exec['pear-update-pear'],
+file { 'composer-add-path':
+  path => '/etc/profile.d/append-composer-path.sh',
+  ensure => file,
+  content => 'PATH=$PATH:$HOME/.composer/vendor/bin',
+  require => Exec['composer-install'],
 }
 
-exec { 'pear-install-console-table':
-  command => '/usr/bin/pear install Console_Table',
-  require => Exec['pear-install-drush-channel'],
-}
-
-exec { 'pear-install-drush':
-  command => '/usr/bin/pear install drush/drush',
-  require => Exec['pear-install-console-table'],
+exec { 'drush-install':
+  command => '/usr/bin/composer global require drush/drush:7.1.0',
+  environment => ["HOME=/home/vagrant"],
+  require => File['composer-add-path'],
+  unless => '/usr/bin/which drush',
 }
