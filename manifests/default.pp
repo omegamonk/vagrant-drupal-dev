@@ -201,6 +201,6 @@ file { 'composer-add-path':
 exec { 'drush-install':
   command => '/usr/bin/composer global require drush/drush:7.1.0',
   environment => ["HOME=/home/vagrant"],
-  require => File['composer-add-path'],
+  require => Exec['composer-mv'],
   unless => '/usr/bin/which drush',
 }
