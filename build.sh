@@ -55,7 +55,7 @@ create_vagrantfile() {
 	    dev.vm.network "private_network", ip: "$address"
 
 	    # Need to add the appropriate folders to access htdocs, etc.
-	    dev.vm.synced_folder 'site-root', '/app/drupal', type: 'nfs'
+	    dev.vm.synced_folder 'acquia', '/app/drupal', type: 'nfs'
 	  end
 
 	  config.vm.provider 'virtualbox' do |vb|

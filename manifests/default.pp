@@ -181,6 +181,7 @@ mysql_grant { 'root@192.168.%/*.*':
 
 exec { 'composer-install':
   command => '/usr/bin/curl -sS https://getcomposer.org/installer | php',
+  environment => ["HOME=/home/vagrant"],
   require => Package['php5-cli'],
   unless => '/usr/bin/which composer',
 }
