@@ -28,7 +28,6 @@ package { [
   'php5-curl',
   'php5-common',
   'php5-gd',
-  'php5-xdebug',
   'nginx',
   'mariadb-server',
   'git-core',
